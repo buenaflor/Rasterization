@@ -37,9 +37,13 @@ classdef ClippingPlane < handle
             % HINT:   You can access the plane property via obj.plane.
             % NOTE:   The following lines can be removed. They prevent the framework
             %         from crashing.
-
-            ret = 0;
-
+            
+            if (dot(position, obj.plane) <= 0) 
+                ret = 1;
+            else 
+                ret = 0;
+            end
+           
         end
 
         function ret = intersect(obj, pos1, pos2)
@@ -53,7 +57,10 @@ classdef ClippingPlane < handle
             % NOTE:   The following lines can be removed. They prevent the framework
             %         from crashing.
 
-            ret = 0;
+            aPos = dot(pos1, obj.plane);
+            bPos = dot(pos2, obj.plane);
+            t = aPos / (aPos - bPos);
+            ret = t;
 
         end
     end
@@ -68,12 +75,12 @@ classdef ClippingPlane < handle
             % NOTE:   The following lines can be removed. They prevent the framework
             %         from crashing.
 
-            ret(6) = ClippingPlane([0, 0, 0, 0]);
-            ret(5) = ClippingPlane([0, 0, 0, 0]);
-            ret(4) = ClippingPlane([0, 0, 0, 0]);
-            ret(3) = ClippingPlane([0, 0, 0, 0]);
-            ret(2) = ClippingPlane([0, 0, 0, 0]);
-            ret(1) = ClippingPlane([0, 0, 0, 0]);
+            ret(6) = ClippingPlane([1, 0, 0, -1]);
+            ret(5) = ClippingPlane([-1, 0, 0, -1]);
+            ret(4) = ClippingPlane([0, 1, 0, -1]);
+            ret(3) = ClippingPlane([0, -1, 0, -1]);
+            ret(2) = ClippingPlane([0, 0, 1, -1]);
+            ret(1) = ClippingPlane([0, 0, -1, -1]);
 
         end
 
