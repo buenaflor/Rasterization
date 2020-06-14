@@ -45,6 +45,8 @@ xStep = dx / steps;
 yStep = dy / steps;
 totalDistance = sqrt((x1 - x2)^2 + (y1 - y2)^2);
 i = 0;
+interpolatedDepth = depth1;
+interpolatedColor = v1.getColor();
 
 while i <= steps
     

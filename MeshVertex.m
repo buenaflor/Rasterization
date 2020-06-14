@@ -75,8 +75,11 @@ classdef MeshVertex < handle
             % TODO 1:   Implement this function.
             % NOTE:     The following lines can be removed. They prevent the
             %           framework from crashing.
-
-            res = a * (1 - t) + b * t;
+            if (t > 0 && t < 1)
+                res = a * (1 - t) + b * t;
+            else
+                res = a;
+            end
 
         end
 
