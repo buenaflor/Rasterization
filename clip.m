@@ -45,7 +45,7 @@ function [vertex_count_clipped, pos_clipped, col_clipped] = clipPlane(vertex_cou
 %                               one row corresponds to one vertex color
 
 pos_clipped = zeros(vertex_count+1, 4);
-col_clipped = ones(vertex_count+1, 3);
+col_clipped = zeros(vertex_count+1, 3);
 
 % TODO 2:   Implement this function.
 % HINT 1: 	Read the article about Sutherland Hodgman algorithm on Wikipedia.
@@ -62,31 +62,33 @@ vertex_count_clipped = 0;
 for i = 1: vertex_count
   p1 = positions(i, :);
   p2 = positions(mod(i, vertex_count) + 1, :);
+  c1 = colors(i, :);
+  c2 = colors(mod(i, vertex_count) + 1, :);
   
   if (clipping_plane.inside(p1))
       if ~(clipping_plane.inside(p2))
           t = clipping_plane.intersect(p1, p2);
           intersectionPoint = MeshVertex.mix(p1, p2, t);
+          interpolatedColor = MeshVertex.mix(c1, c2, t);
           pos_clipped(i + 1, :) = intersectionPoint;
+          col_clipped(i + 1, :) = interpolatedColor;
           vertex_count_clipped = vertex_count_clipped + 1;
       end
       pos_clipped(i, :) = p1;
+      col_clipped(i, :) = colors(i, :);
       vertex_count_clipped = vertex_count_clipped + 1;
 
   elseif (clipping_plane.inside(p2))
           t = clipping_plane.intersect(p1, p2);
           intersectionPoint = MeshVertex.mix(p1, p2, t);
+          interpolatedColor = MeshVertex.mix(c1, c2, t);
           pos_clipped(i + 1, :) = intersectionPoint;
+          col_clipped(i + 1, :) = interpolatedColor;
           vertex_count_clipped = vertex_count_clipped + 1;
   end
   
 end
 
-if (vertex_count_clipped == 0)
-    vertex_count_clipped = vertex_count;
-    pos_clipped = positions;
-    col_clipped = colors;
-end
 
 
 end

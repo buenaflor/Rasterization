@@ -60,6 +60,13 @@ classdef ClippingPlane < handle
             aPos = dot(pos1, obj.plane);
             bPos = dot(pos2, obj.plane);
             t = aPos / (aPos - bPos);
+            
+            if (aPos < 0)
+                t = t - 1*10^(-6);
+            end
+            if (bPos < 0)
+                t = t + 1*10^(-6);
+            end
             ret = t;
 
         end
